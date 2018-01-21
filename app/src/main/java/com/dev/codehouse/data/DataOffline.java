@@ -6,9 +6,15 @@ package com.dev.codehouse.data;
 
 public class DataOffline {
     String id ;
-    String imgname ;
+    byte[] imgname ;
     String headtxt ;
     String detail ;
+    public DataOffline(String id, byte[] image, String headtxt, String detail){
+        this.id = id ;
+        this.imgname = image ;
+        this.headtxt = headtxt ;
+        this.detail = detail ;
+    }
 
     public String getId() {
         return id;
@@ -18,11 +24,11 @@ public class DataOffline {
         this.id = id;
     }
 
-    public String getImgname() {
+    public byte[] getImgname() {
         return imgname;
     }
 
-    public void setImgname(String imgname) {
+    public void setImgname(byte[] imgname) {
         this.imgname = imgname;
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.dev.codehouse.sqlite.InsertSQLite;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -40,6 +45,34 @@ public class MainInsertData extends AppCompatActivity {
                 );
             }
         });
+        btninsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    InsertSQLite minsert = new InsertSQLite(MainInsertData.this);
+                    minsert.insertdata(mhead.getText().toString().trim(),
+                            mdetail.getText().toString().trim(),
+                            imageViewToByte(imageView)
+                    );
+                    Toast.makeText(getApplicationContext(),"Complete Full",Toast.LENGTH_LONG).show();
+                    mhead.setText("");
+                    mdetail.setText("");
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    private byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray ;
+
     }
 
     @Override

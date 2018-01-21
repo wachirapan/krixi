@@ -2,6 +2,9 @@ package com.dev.codehouse.krixi;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dev.codehouse.data.DataOffline;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,19 +44,21 @@ public class SubMainDataOffline extends BaseAdapter {
         return i;
     }
 
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = View.inflate(mcontext,R.layout.activity_sub_data,null);
-        ImageView mimage = (ImageView)v.findViewById(R.id.imageView);
-        TextView mtext = (TextView)v.findViewById(R.id.textView);
+        TextView mhead = (TextView)v.findViewById(R.id.textView);
         TextView mdetail = (TextView)v.findViewById(R.id.detailtxt);
-        Button btnlook = (Button)v.findViewById(R.id.btnlookdata);
-        Button btnshare = (Button)v.findViewById(R.id.buttonshare);
-        Button btndell = (Button)v.findViewById(R.id.btndell);
+        ImageView imageView = (ImageView)v.findViewById(R.id.imageView);
 
+        mhead.setText(mlist.get(i).getHeadtxt());
+        mdetail.setText(mlist.get(i).getDetail());
+        byte[] img = mlist.get(i).getImgname();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0 ,img.length);
+        imageView.setImageBitmap(bitmap);
 
-
-        v.getTag(Integer.parseInt(mlist.get(i).getId()));
+        v.setTag(mlist.get(i).getId());
         return v;
     }
 }
