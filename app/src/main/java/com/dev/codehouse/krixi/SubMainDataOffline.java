@@ -2,6 +2,7 @@ package com.dev.codehouse.krixi;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -46,14 +47,25 @@ public class SubMainDataOffline extends BaseAdapter {
 
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         View v = View.inflate(mcontext,R.layout.activity_sub_data,null);
         TextView mhead = (TextView)v.findViewById(R.id.textView);
         TextView mdetail = (TextView)v.findViewById(R.id.detailtxt);
         ImageView imageView = (ImageView)v.findViewById(R.id.imageView);
+        Button btndetail = (Button)v.findViewById(R.id.btnlookdata) ;
+        btndetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mintentdetail = new Intent(mcontext,MainDetail.class);
+                mintentdetail.putExtra("ID", mlist.get(i).getId());
+                mcontext.startActivity(mintentdetail);
+
+            }
+        });
 
         mhead.setText(mlist.get(i).getHeadtxt());
         mdetail.setText(mlist.get(i).getDetail());
+
         byte[] img = mlist.get(i).getImgname();
         Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0 ,img.length);
         imageView.setImageBitmap(bitmap);

@@ -29,16 +29,14 @@
         android:textSize="22dp" />
 
     <Button
+        android:id="@+id/btnlookdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
+        android:layout_above="@+id/detailtxt"
+        android:layout_toLeftOf="@+id/buttonshare"
+        android:layout_toStartOf="@+id/buttonshare"
         android:text="ดูข้อมูล"
-        android:textSize="20dp"
-        android:id="@+id/btnlookdata"/>
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"

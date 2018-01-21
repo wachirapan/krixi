@@ -14,10 +14,17 @@ public class QuerySQLite extends SQLiteConnect{
     public QuerySQLite(Context context) {
         super(context);
     }
+
     public Cursor getData()
     {
         db = this.getWritableDatabase();
         cursor = db.rawQuery("select * from dataaddress ", null);
+        return cursor ;
+    }
+    public Cursor getoneData(String id)
+    {
+        db = this.getWritableDatabase();
+        cursor = db.rawQuery("select * from dataaddress where data_id = '"+id+"' ",null);
         return cursor ;
     }
 }
