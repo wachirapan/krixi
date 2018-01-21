@@ -17,7 +17,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE dataaddress" +
                 "(data_id INTEGER PRIMARY KEY," +
-                " data_img BLOG," +
+                " data_img BLOB," +
                 " data_head TEXT(100)," +
                 " data_detail TEXT(100));");
 //        sqLiteDatabase.execSQL("CREATE TABLE table2" +
