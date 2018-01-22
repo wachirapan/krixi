@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,11 +14,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dev.codehouse.data.DataOffline;
+import com.dev.codehouse.sqlite.DeleteSQlite;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wachirapan on 21/1/2018 AD.
@@ -26,6 +38,8 @@ import java.util.List;
 public class SubMainDataOffline extends BaseAdapter {
     Context mcontext ;
     List<DataOffline> mlist ;
+    String URL = "http://192.168.2.206/krixiapp/UploadImage.php";
+    String imgurl, headurl, detailurl ;
     public  SubMainDataOffline(Context context, List<DataOffline> list){
         this.mcontext = context ;
         this.mlist = list ;
@@ -62,6 +76,22 @@ public class SubMainDataOffline extends BaseAdapter {
 
             }
         });
+        Button btndell = (Button)v.findViewById(R.id.btndell);
+        btndell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeleteSQlite mdell = new DeleteSQlite(mcontext);
+                mdell.deletedata(mlist.get(i).getId().toString());
+
+            }
+        });
+        Button buttonshare = (Button)v.findViewById(R.id.buttonshare);
+        buttonshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uploadimage();
+            }
+        });
 
         mhead.setText(mlist.get(i).getHeadtxt());
         mdetail.setText(mlist.get(i).getDetail());
@@ -70,7 +100,36 @@ public class SubMainDataOffline extends BaseAdapter {
         Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0 ,img.length);
         imageView.setImageBitmap(bitmap);
 
+        imgurl = Base64.encodeToString(img,Base64.DEFAULT);
+        headurl = mlist.get(i).getHeadtxt().toString();
+        detailurl = mlist.get(i).getDetail().toString();
         v.setTag(mlist.get(i).getId());
         return v;
+    }
+
+    private void Uploadimage()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("TEN",imgurl);
+                param.put("HINH",headurl);
+                param.put("detail",detailurl);
+                return param;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(mcontext);
+        requestQueue.add(stringRequest);
     }
 }
